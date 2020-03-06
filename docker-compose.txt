@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+        jenkins:
+                container_name: jenkins
+                restart: always
+                image: jenkins/jenkins
+                ports:
+                        - target: 8080
+                          published: 8080
+                          protocol: tcp
+                          mode: host
+                volumes:
+                        - /var/jenkins_home:/var/lib/jenkins
+
+        tomcat:
+                container_name: tomcat
+                restart: always
+                image: tomcat:8.5-jre8
+                ports:
+                        - "8181:8080"
+                volumes:
+                        - ./logs/:/usr/local/tomcat/logs
+        postgres:
+                container_name: postgres
+                image: postgres
+                restart: always
+                environment:
+                        - POSTGRES_USER=sonar
+                        - POSTGRES_PASSWORD=sonar
+                volumes:
+                        - /data/postgresql:/var/lib/postgresql
+                        - /data/postgresql_data:/var/lib/postgresql/data
+        sonarqube:
+                container_name: sonarqube
+                restart: always
+                image: sonarqube
+                ports:
+                        - "8081:9000"
+                volumes:
+                        - /opt/sonarqube:/sonarqube
+                depends_on:
+                        - postgres

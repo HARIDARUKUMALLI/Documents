@@ -1,0 +1,58 @@
+node
+{
+    stage('Start Build')
+	{
+     git credentialsId: 'LttsGit', url: 'https://github.com/gittadmin/cidemo.git'
+     def mvnHome =  tool name: 'Maven', type: 'maven'   
+     sh "${mvnHome}/bin/mvn compile"
+    }
+    stage('Execute Unit Test'){
+      // Get maven home path
+      def mvnHome =  tool name: 'Maven', type: 'maven'   
+      sh "${mvnHome}/bin/mvn test"
+	  junit '**/target/surefire-reports/TEST-*.xml'
+		//archiveArtifacts 'target/'
+   }
+    stage('Static Code Analysis') 
+	{
+    def mvnHome =  tool name: 'Maven', type: 'maven'
+    withSonarQubeEnv('sonarqube') { 
+    sh "${mvnHome}/bin/mvn sonar:sonar"
+	}
+	stage("Quality Gate Status Check"){
+            timeout(time: 1, unit: 'HOURS') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+		error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+          }
+      } 
+
+    stage('Package')
+	{
+      // Get maven home path
+     // def mvnHome =  tool name: 'Maven', type: 'maven'   
+      sh "mvn package"
+    }
+    stage('Install')
+	{
+      // Get maven home path
+      //def mvnHome =  tool name: 'Maven', type: 'maven'   
+      sh "mvn install"
+    }
+   stage('Push to nexus')
+    {
+    nexusPublisher nexusInstanceId: 'NexusRepo', 
+	nexusRepositoryId: 'releases', 
+	packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: '/var/lib/jenkins/workspace/LttsDemo/target/petclinic.war']], mavenCoordinate: [artifactId: 'ltts.devops', groupId: 'com.ltts.devops', packaging: 'war', version: '1.0_${BUILD_NUMBER}']]]
+        
+    }
+    //stage('Deploy to tomcat')
+    //{
+    //sshagent(['SSH']) {
+    
+        //sh 'scp -o StrictHostKeyChecking=no target/*.war ec2-user@10.0.1.153:/opt/apache-tomcat/webapps/'
+    //}
+}
+}
+build job: 'CDDEMO', wait: false

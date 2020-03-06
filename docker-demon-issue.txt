@@ -1,0 +1,118 @@
+root@ip-10-0-1-210:/data# ls
+root@ip-10-0-1-210:/data# lsblk
+NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+loop0     7:0    0 89.1M  1 loop /snap/core/8039
+loop1     7:1    0   18M  1 loop /snap/amazon-ssm-agent/1480
+loop2     7:2    0   89M  1 loop /snap/core/7713
+xvda    202:0    0   49G  0 disk
+└─xvda1 202:1    0   49G  0 part /
+root@ip-10-0-1-210:/data# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev            7.9G     0  7.9G   0% /dev
+tmpfs           1.6G  764K  1.6G   1% /run
+/dev/xvda1      7.7G  7.7G   25M 100% /
+tmpfs           7.9G     0  7.9G   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+tmpfs           7.9G     0  7.9G   0% /sys/fs/cgroup
+/dev/loop1       18M   18M     0 100% /snap/amazon-ssm-agent/1480
+/dev/loop2       90M   90M     0 100% /snap/core/7713
+/dev/loop0       90M   90M     0 100% /snap/core/8039
+tmpfs           1.6G     0  1.6G   0% /run/user/1000
+root@ip-10-0-1-210:/data# resize2fs /dev/xvda1
+resize2fs 1.44.1 (24-Mar-2018)
+Filesystem at /dev/xvda1 is mounted on /; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 7
+The filesystem on /dev/xvda1 is now 12844795 (4k) blocks long.
+
+root@ip-10-0-1-210:/data# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev            7.9G     0  7.9G   0% /dev
+tmpfs           1.6G  764K  1.6G   1% /run
+/dev/xvda1       48G  7.7G   40G  17% /
+tmpfs           7.9G     0  7.9G   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+tmpfs           7.9G     0  7.9G   0% /sys/fs/cgroup
+/dev/loop1       18M   18M     0 100% /snap/amazon-ssm-agent/1480
+/dev/loop2       90M   90M     0 100% /snap/core/7713
+/dev/loop0       90M   90M     0 100% /snap/core/8039
+tmpfs           1.6G     0  1.6G   0% /run/user/1000
+root@ip-10-0-1-210:/data# cd
+root@ip-10-0-1-210:~# logout
+ubuntu@ip-10-0-1-210:~$ ifconfig
+br-67561d611b96: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 172.18.0.1  netmask 255.255.0.0  broadcast 172.18.255.255
+        ether 02:42:69:58:22:e4  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+docker0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:e1:a0:e8:22  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 9001
+        inet 10.0.1.198  netmask 255.255.255.0  broadcast 10.0.1.255
+        inet6 fe80::c8:66ff:fe30:c7f0  prefixlen 64  scopeid 0x20<link>
+        ether 02:c8:66:30:c7:f0  txqueuelen 1000  (Ethernet)
+        RX packets 4234  bytes 253863 (253.8 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2783  bytes 299488 (299.4 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 296  bytes 25064 (25.0 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 296  bytes 25064 (25.0 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+ubuntu@ip-10-0-1-210:~$ ifconfig
+br-67561d611b96: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 172.18.0.1  netmask 255.255.0.0  broadcast 172.18.255.255
+        ether 02:42:69:58:22:e4  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+docker0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:e1:a0:e8:22  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 9001
+        inet 10.0.1.198  netmask 255.255.255.0  broadcast 10.0.1.255
+        inet6 fe80::c8:66ff:fe30:c7f0  prefixlen 64  scopeid 0x20<link>
+        ether 02:c8:66:30:c7:f0  txqueuelen 1000  (Ethernet)
+        RX packets 4257  bytes 255115 (255.1 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2802  bytes 302946 (302.9 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 296  bytes 25064 (25.0 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 296  bytes 25064 (25.0 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+ubuntu@ip-10-0-1-210:~$ ls
+1  devops.pem  docker-compose.yml  usha.yml
+ubuntu@ip-10-0-1-210:~$ docker ps
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.38/containers/json: dial unix /var/run/docker.sock: connect: permission denied
+ubuntu@ip-10-0-1-210:~$ sudo bash
+sudo: unable to resolve host ip-10-0-1-210: Resource temporarily unavailable
+root@ip-10-0-1-210:~# docker ps
+CONTAINER ID        IM
