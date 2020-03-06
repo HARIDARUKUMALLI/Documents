@@ -1,0 +1,21 @@
+aws configure --profile terraform
+aws configure get aws_access_key_id
+aws configure get region
+
+ssh-keygen -t rsa -b 2048 -f ~/.ssh/MyKeyPair.pem -q -P ''     (which creates one pem file and public key file)
+chmod 400 ~/.ssh/MyKeyPair.pem
+ssh-keygen -y -f ~/.ssh/MyKeyPair.pem > ~/.ssh/MyKeyPair.pub
+
+https://www.cloudping.info/
+https://github.com/wardviaene/terraform-course
+
+aws iam get-user 
+
+https://cloud-images.ubuntu.com/locator/ec2/
+
+ssh-keygen -f mykey
+(generated public and private keys)
+
+
+formc.helpdesk@ltts.com
+8657491361
